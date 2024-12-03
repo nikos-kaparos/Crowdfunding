@@ -1,4 +1,4 @@
-# Spring Security Example
+# Crowdfunding Web App
 
 This repository demonstrates a basic setup of Spring Security, showcasing fundamental authentication and authorization mechanisms within a Spring Boot application.
 
@@ -14,7 +14,6 @@ git clone https://github.com/nikos-kaparos/Spring-Security-Example.git
 mvn clean package -DskipTests
 ```
 -->
-
 ## Usage
 Run the containers
 ```bash
