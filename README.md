@@ -25,7 +25,7 @@ Connect to container that host the database
 ```bash
 docker exec -it my_postgres_db psql -U myuser -d mydatabase
 ```
-Check the database
+Check the tables in database
 ```bash
 \dt
 ```
