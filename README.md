@@ -6,7 +6,7 @@ This repository demonstrates a basic setup of Spring Security, showcasing fundam
 
 Clone the repository
 ```
-git clone https://github.com/nikos-kaparos/Spring-Security-Example.git
+git clone https://github.com/nikos-kaparos/Crowdfunding.git
 ```
 <!--
 ## Build the project with Maven:
