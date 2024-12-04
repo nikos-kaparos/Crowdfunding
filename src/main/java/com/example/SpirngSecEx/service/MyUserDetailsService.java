@@ -47,4 +47,5 @@ public class MyUserDetailsService implements UserDetailsService {
     public boolean existByUser(String username) {
         return repo.existsByUsername(username);
     }
+
 }
