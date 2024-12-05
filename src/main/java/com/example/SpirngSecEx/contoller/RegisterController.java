@@ -33,14 +33,13 @@ public class RegisterController {
             System.out.println("Error, this username is already taken");
             return "register";
         }
-        System.out.println(role);
         if ("supporter".equals(role)) {
             Supporter supporter = new Supporter();
             supporter.setUsername(user.getUsername());
             supporter.setPassword(user.getPassword());
             supporter.setRole(role);
             userDetailsService.saveUser(supporter);
-            System.out.println("DONE" + supporter.getUsername() + "saved");
+            System.out.println("DONE " + supporter.getUsername() + " saved");
         }else {
             userDetailsService.saveUser(user);
             System.out.println("user: " + user.getUsername() + " saved");
