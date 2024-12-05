@@ -4,6 +4,7 @@ import com.example.SpirngSecEx.model.Supporter;
 import com.example.SpirngSecEx.model.Users;
 import com.example.SpirngSecEx.repository.UserRepo;
 import com.example.SpirngSecEx.service.MyUserDetailsService;
+import com.example.SpirngSecEx.service.SupporterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,6 +17,8 @@ public class RegisterController {
 
     @Autowired
     private MyUserDetailsService userDetailsService;
+    @Autowired
+    private SupporterService supporterService;
 
     @GetMapping("/register")
     public String showRegister(Model model){
@@ -38,7 +41,7 @@ public class RegisterController {
             supporter.setUsername(user.getUsername());
             supporter.setPassword(user.getPassword());
             supporter.setRole(role);
-            userDetailsService.saveUser(supporter);
+            supporterService.saveSupporter(supporter);
             System.out.println("DONE " + supporter.getUsername() + " saved");
         }else {
             userDetailsService.saveUser(user);
