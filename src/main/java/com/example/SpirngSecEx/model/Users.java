@@ -3,15 +3,20 @@ package com.example.SpirngSecEx.model;
 import jakarta.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED) // Make table for any entity
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column
     private String username;
+    @Column
     private String password;
+    @Column
     private String email;
+    @Column
     private String role;
+    @Column
     private boolean enabled;
 
     public int getId() {

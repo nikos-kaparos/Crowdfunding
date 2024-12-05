@@ -29,7 +29,7 @@ public class SecurityConfig {
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/register/**").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
-                        .requestMatchers("/donor/**").hasAuthority("DONOR")
+                        .requestMatchers("/supporter/**").hasAuthority("SUPPORTER")
                         .requestMatchers("/seller/**").hasAuthority("SELLER")
                         .anyRequest().authenticated())
                 //Enable form Login for browser

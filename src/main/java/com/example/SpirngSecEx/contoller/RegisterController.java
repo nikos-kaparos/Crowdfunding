@@ -1,5 +1,6 @@
 package com.example.SpirngSecEx.contoller;
 
+import com.example.SpirngSecEx.model.Supporter;
 import com.example.SpirngSecEx.model.Users;
 import com.example.SpirngSecEx.repository.UserRepo;
 import com.example.SpirngSecEx.service.MyUserDetailsService;
@@ -32,8 +33,18 @@ public class RegisterController {
             System.out.println("Error, this username is already taken");
             return "register";
         }
-        userDetailsService.saveUser(user);
-        System.out.println("user: " + user.getUsername() + " saved");
+        System.out.println(role);
+        if ("supporter".equals(role)) {
+            Supporter supporter = new Supporter();
+            supporter.setUsername(user.getUsername());
+            supporter.setPassword(user.getPassword());
+            supporter.setRole(role);
+            userDetailsService.saveUser(supporter);
+            System.out.println("DONE" + supporter.getUsername() + "saved");
+        }else {
+            userDetailsService.saveUser(user);
+            System.out.println("user: " + user.getUsername() + " saved");
+        }
         return "registrationWait";
     }
 

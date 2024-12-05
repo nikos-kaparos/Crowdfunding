@@ -60,10 +60,12 @@
     </thead>
     <tbody>
       <tr>
-        <td th:text="${supporter.firstName}"></td>
-        <td th:text="${supporter.lastName}"></td>
-        <td th:text="${supporter.email}"></td>
-        <td th:text="${supporter.username}"></td>
+<!--        <td th:text="${supporter.firstName}"></td>-->
+<!--        <td th:text="${supporter.lastName}"></td>-->
+<!--        <td th:text="${supporter.email}"></td>-->
+<!--        <td th:text="${supporter.username}"></td>-->
+        <td th:text="${supporter.getUsername()}"></td>
+        <td th:text="${supporter.getEmail()}"></td>
       </tr>
     </tbody>
   </table>

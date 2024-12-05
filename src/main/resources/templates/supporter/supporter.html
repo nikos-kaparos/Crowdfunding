@@ -49,9 +49,11 @@
     </thead>
     <tbody>
       <tr th:each="sup : ${supporters}">
-        <td th:text="${sup.firstName}"></td>
-        <td th:text="${sup.lastName}"></td>
-        <td th:text="${sup.email}"></td>
+<!--        <td th:text="${sup.firstName}"></td>-->
+<!--        <td th:text="${sup.lastName}"></td>-->
+<!--        <td th:text="${sup.email}"></td>-->
+          <td th:text="${sup.getUsername()}"></td>
+          <td th:text="${sup.getEmail()}"></td>
         <td>
           <a th:href="@{/supporter/details/{id}(id=${sup.id})}" th:text="'Supporter Details'"></a>
         </td>
