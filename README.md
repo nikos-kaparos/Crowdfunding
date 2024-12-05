@@ -9,7 +9,7 @@ Clone the repository
 git clone https://github.com/nikos-kaparos/Crowdfunding.git
 ```
 <!--
-## Build the project with Maven:
+ Build the project with Maven:
 ```
 mvn clean package -DskipTests
 ```
