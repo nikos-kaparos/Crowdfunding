@@ -6,7 +6,7 @@ This repository demonstrates a basic setup of Spring Security, showcasing fundam
 
 Clone the repository
 ```
-git clone https://github.com/nikos-kaparos/Crowdfunding.git
+git clone https://github.com/nikos-kaparos/Spring-Security-Example.git
 ```
 <!--
  Build the project with Maven:
@@ -25,7 +25,7 @@ Connect to container that host the database
 ```bash
 docker exec -it my_postgres_db psql -U myuser -d mydatabase
 ```
-Check the tables in database
+Check the database
 ```bash
 \dt
 ```
