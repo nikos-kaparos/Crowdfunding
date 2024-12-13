@@ -1,12 +1,14 @@
 package com.example.SpirngSecEx.contoller;
 
 import com.example.SpirngSecEx.model.Contribution;
+import com.example.SpirngSecEx.model.Creator;
 import com.example.SpirngSecEx.model.Project;
 import com.example.SpirngSecEx.model.Supporter;
-import com.example.SpirngSecEx.service.ContributionService;
-import com.example.SpirngSecEx.service.ProjectService;
-import com.example.SpirngSecEx.service.SupporterService;
+import com.example.SpirngSecEx.service.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,9 @@ public class ProjectController {
     private ProjectService projectService;
     private SupporterService supporterService;
     private ContributionService contributionService;
+    private MyUserDetailsService myUserDetailsService;
+    @Autowired
+    private CreatorService creatorService;
 
     public ProjectController(ProjectService projectService, SupporterService supporterService, ContributionService contributionService) {
         this.projectService = projectService;
@@ -50,31 +55,58 @@ public class ProjectController {
 
     @GetMapping("/new")
     public String addProject(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); // Παίρνουμε το όνομα χρήστη
         Project pro = new Project();
+        model.addAttribute("username", username);
         model.addAttribute("emptyProject", pro);
         return "project/project_form";
     }
 
+//    @PostMapping("/new")
+//    public String saveProject(@ModelAttribute("pro")Project project, Model model) {
+//        System.out.println("List of projects before: " + projectService.getProjects());
+//        projectService.saveProject(project);
+//        System.out.println("List of projects after: " + projectService.getProjects());
+//        System.out.println("Created project: " + project.getCreator());
+//        model.addAttribute("listProjects", projectService.getProjects());
+//        return "project/project";
+//    }
     @PostMapping("/new")
     public String saveProject(@ModelAttribute("pro") Project project, Model model) {
-        System.out.println("List of projects before: " + projectService.getProjects());
+        // Ανάθεση του creator στο project πριν την αποθήκευση
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); // Παίρνουμε το όνομα χρήστη
+        model.addAttribute("username", username);
+        Creator creator = creatorService.findByUsername(username);
+        // Εκτύπωση για να δούμε ποιος είναι ο δημιουργός του project
+        project.setCreator(creator);
+        System.out.println("Created project with creator: " + project.getCreator());
+//      Αποθήκευση του project με τον δημιουργό του
         projectService.saveProject(project);
-        System.out.println("List of projects after: " + projectService.getProjects());
+//      Προσθήκη της λίστας των projects στο model για να εμφανιστεί στο view
         model.addAttribute("listProjects", projectService.getProjects());
         return "project/project";
     }
 
     @GetMapping("/details/{id}")
     public String projectDetails(@PathVariable Integer id, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); // Παίρνουμε το όνομα χρήστη
+        model.addAttribute("creator", projectService.getProjectCreator(id));
         model.addAttribute("supList", supporterService.getSupporters());
         model.addAttribute("project", projectService.getProject(id));
+        model.addAttribute("username", username);
         return "project/project_details";
     }
+
 
 
     @PostMapping("/support/{id}")
     public String supportProject(@PathVariable Integer id, @RequestParam("amount") double amount, @RequestParam("supId") Integer supId
             , Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName(); // Παίρνουμε το όνομα χρήστη
 
         //We bring the project and the supporter based on their IDs
         Project project = projectService.getProject(id);
@@ -105,6 +137,7 @@ public class ProjectController {
         projectService.updateProjectSupporterList(project, supporter);
 
         model.addAttribute("listProjects", projectService.getProjects());
+        model.addAttribute("username", username);
 
         return "project/project";
     }

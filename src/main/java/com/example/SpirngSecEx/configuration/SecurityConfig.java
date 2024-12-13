@@ -31,8 +31,8 @@ public class SecurityConfig {
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/register/**").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
-                        .requestMatchers("/supporter/**").hasAuthority("SUPPORTER")
-                        .requestMatchers("/seller/**").hasAuthority("SELLER")
+                        .requestMatchers("/supporter/**", "/project/details/**").hasAuthority("SUPPORTER")
+                        .requestMatchers("/creator/**","/project/new").hasAuthority("CREATOR")
                         .anyRequest().authenticated())
                 //Enable form Login for browser
                 .formLogin(Customizer.withDefaults())

@@ -5,6 +5,8 @@ import com.example.SpirngSecEx.model.Users;
 import com.example.SpirngSecEx.service.MyUserDetailsService;
 import com.example.SpirngSecEx.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +31,8 @@ public class AdminController {
 
     @GetMapping("/users")
     public String showUsers(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("username", authentication.getName());
         List<Users> users = myUserDetailsService.getAllUsers();
         model.addAttribute("users", users);
         return "usersPage";
@@ -51,6 +55,9 @@ public class AdminController {
 
     @GetMapping("/project")
     public String showProject(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("username", authentication.getName());
+        model.addAttribute("username", authentication.getName());
         List<Project> projects = projectService.getProjects();
         model.addAttribute("projects", projects);
         return "project/project_admin";

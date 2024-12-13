@@ -2,6 +2,7 @@ package com.example.SpirngSecEx.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
+import org.springframework.scheduling.config.Task;
 
 import java.util.List;
 
@@ -30,19 +31,16 @@ public class Project {
     //True if the project is approved by the admin, false if the project has yet to be approved
 
     @ManyToMany(mappedBy = "projects", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-//    @JoinTable(
-//            name = "supporter_project",
-//            joinColumns = @JoinColumn(name = "project_id"),
-//            inverseJoinColumns = @JoinColumn(name = "supporter_id"),
-//            uniqueConstraints = @UniqueConstraint(columnNames = {"project_id", "supporter_id"})
-//
-//    )
     private List<Supporter> supporters;
 
     @OneToMany(mappedBy = "project")
     private List<Contribution> contributions;
 
-    public Project(Integer id, String title, String description, double requiredFunding) {
+    @ManyToOne
+    @JoinColumn(name = "creator_id")
+    private Creator creator;
+
+    public Project(Integer id ,String title, String description, double requiredFunding) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -57,9 +55,18 @@ public class Project {
         this.totalFunding = 0;
     }
 
+
     public Project(){
         this.status = false;
         this.totalFunding = 0;
+    }
+
+    public Creator getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Creator creator) {
+        this.creator = creator;
     }
 
     public Integer getId() {
@@ -69,6 +76,7 @@ public class Project {
     public void setId(Integer id) {
         this.id = id;
     }
+
 
     public String getTitle() {
         return title;

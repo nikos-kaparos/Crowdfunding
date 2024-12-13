@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 public class Supporter extends Users{
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
     @JoinTable(
             name = "supporter_project",
             joinColumns = @JoinColumn(name = "supporter_id"),
@@ -16,6 +16,7 @@ public class Supporter extends Users{
 
     )
     private List<Project> projects;
+
 
     @OneToMany(mappedBy = "supporter")
     private List<Contribution> contributions;

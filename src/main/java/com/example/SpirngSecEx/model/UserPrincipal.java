@@ -21,8 +21,8 @@ public class UserPrincipal implements UserDetails {
             return Collections.singletonList(new SimpleGrantedAuthority("ADMIN"));
         } else if (user.getRole().equals("supporter")) {
             return Collections.singletonList(new SimpleGrantedAuthority("SUPPORTER"));
-        }else if (user.getRole().equals("seller")) {
-            return Collections.singletonList(new SimpleGrantedAuthority("SELLER"));
+        }else if (user.getRole().equals("creator")) {
+            return Collections.singletonList(new SimpleGrantedAuthority("CREATOR"));
         }
             return Collections.singletonList(new SimpleGrantedAuthority("USERS"));
     }

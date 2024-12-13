@@ -45,6 +45,4 @@ public class SupporterService {
         supporter.addContributionToSupporter(contribution);
         supporterRepository.save(supporter);
     }
-
-
 }
