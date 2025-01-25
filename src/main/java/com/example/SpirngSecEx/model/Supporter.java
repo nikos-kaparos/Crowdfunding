@@ -1,5 +1,7 @@
 package com.example.SpirngSecEx.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -7,14 +9,15 @@ import java.util.List;
 @Entity
 public class Supporter extends Users{
 
+
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
     @JoinTable(
             name = "supporter_project",
             joinColumns = @JoinColumn(name = "supporter_id"),
             inverseJoinColumns = @JoinColumn(name = "project_id"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"supporter_id", "project_id"})
-
     )
+    @JsonIgnore
     private List<Project> projects;
 
 

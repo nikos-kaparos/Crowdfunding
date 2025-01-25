@@ -3,6 +3,7 @@ package com.example.SpirngSecEx.service;
 import com.example.SpirngSecEx.model.UserPrincipal;
 import com.example.SpirngSecEx.model.Users;
 import com.example.SpirngSecEx.repository.UserRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,7 +19,9 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepo repo;
 
+
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users user = repo.findByUsername(username);
         if (user == null) {
@@ -33,21 +36,27 @@ public class MyUserDetailsService implements UserDetailsService {
     }
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
+    @Transactional
     public Users saveUser(Users user) {
         System.out.println("user: " + user.getUsername() + " saved");
         return repo.save(user);
     }
 
+    @Transactional
     public Users findUser(int id) {
         return repo.findById(id).get();
    }
 
+    @Transactional
     public List<Users> getAllUsers() {
         return repo.findAll();
     }
 
+    @Transactional
     public boolean existByUser(String username) {
         return repo.existsByUsername(username);
     }
 
+    @Transactional
+    public void deleteUser(int id) {repo.deleteById(id);}
 }

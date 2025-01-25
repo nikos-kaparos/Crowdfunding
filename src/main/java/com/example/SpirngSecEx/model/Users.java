@@ -1,23 +1,39 @@
 package com.example.SpirngSecEx.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED) // Make table for any entity
 public class Users {
+    // Δημιουργία των views για τον περιορισμό των δεδομένων που θα επιστραφούν σε κάθε context
+    // Η Public view περιλαμβάνει τα βασικά πεδία που είναι προσβάσιμα από όλους
+    public static class Public {}
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(Users.Public.class)
     private int id;
     @Column
+    @JsonView(Users.Public.class)
     private String username;
     @Column
+    @JsonIgnore
     private String password;
     @Column
+    @JsonView(Users.Public.class)
     private String email;
     @Column
+    @JsonView(Users.Public.class)
     private String role;
     @Column
+    @JsonView(Users.Public.class)
     private boolean enabled;
+
+    public Users() {
+    }
+    public Users(String username) {
+    }
 
     public int getId() {
         return id;

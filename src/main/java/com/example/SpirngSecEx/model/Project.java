@@ -1,5 +1,9 @@
 package com.example.SpirngSecEx.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import org.springframework.scheduling.config.Task;
@@ -8,25 +12,32 @@ import java.util.List;
 
 @Entity
 public class Project {
+//    public static class Public {}
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
+//    @JsonView(Project.Public.class)
     private Integer id;
 
     @Column
+//    @JsonView(Project.Public.class)
     private String title;
 
     @Column (columnDefinition = "TEXT")
+//    @JsonView(Project.Public.class)
     private String description;
 
     @Column
+//    @JsonView(Project.Public.class)
     private double requiredFunding;
 
     @Column
+//    @JsonView(Project.Public.class)
     private double totalFunding;
 
     @Column
+//    @JsonView(Project.Public.class)
     private boolean status;
     //True if the project is approved by the admin, false if the project has yet to be approved
 
@@ -38,6 +49,7 @@ public class Project {
 
     @ManyToOne
     @JoinColumn(name = "creator_id")
+//    @JsonView(Project.Public.class)
     private Creator creator;
 
     public Project(Integer id ,String title, String description, double requiredFunding) {
@@ -46,6 +58,7 @@ public class Project {
         this.description = description;
         this.requiredFunding = requiredFunding;
         this.totalFunding = 0;
+//        this.creator = creator;
     }
 
     public Project (String title, String description, double requiredFunding){

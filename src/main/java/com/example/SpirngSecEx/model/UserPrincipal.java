@@ -18,13 +18,13 @@ public class UserPrincipal implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         if (user.getRole().equals("admin")) {
-            return Collections.singletonList(new SimpleGrantedAuthority("ADMIN"));
+            return Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
         } else if (user.getRole().equals("supporter")) {
             return Collections.singletonList(new SimpleGrantedAuthority("SUPPORTER"));
         }else if (user.getRole().equals("creator")) {
             return Collections.singletonList(new SimpleGrantedAuthority("CREATOR"));
         }
-            return Collections.singletonList(new SimpleGrantedAuthority("USERS"));
+            return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USERS"));
     }
 
     @Override

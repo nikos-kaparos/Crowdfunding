@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   app:
     # Location of Dockefile (. -> same directory as docker-compose.yaml)
@@ -25,7 +24,14 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  frontend:
+    build: ./frontend # Path to the frontend Dockerfile
+    container_name: vue_frontend
+    ports:
+      - "3000:80" # Expose port 80 for the frontend
+    depends_on:
+      - app # Ensure the backend is running
 volumes:
   db_data:
     driver: local
+  
