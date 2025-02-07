@@ -66,7 +66,7 @@ SELECT * FROM users;
 - Docker 27.2.1 
 
 - Docker Compose 1.29.2
-- PostgreSQL 16.3 https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/postgresql.png
+- PostgreSQL 16.3
 - Vue cli 5.0.8
 - Node.js 20
 - Nginx last stable version                                                                                                                                                                                                                                                                                                                                 
