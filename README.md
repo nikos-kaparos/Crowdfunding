@@ -63,10 +63,10 @@ SELECT * FROM users;
 ## Technologies
 - Java 21
 - Maven 3.9.9
-- Docker 27.2.1 ![Docker](https://raw.githubusercontent.com/docker/brand/master/logos/256.png)
+- Docker 27.2.1 
 
 - Docker Compose 1.29.2
-- PostgreSQL 16.3
+- PostgreSQL 16.3 https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/postgresql.png
 - Vue cli 5.0.8
 - Node.js 20
 - Nginx last stable version                                                                                                                                                                                                                                                                                                                                 
