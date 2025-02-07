@@ -21,8 +21,8 @@ docker ps
 ``` 
 **To run the app**
 
-1. First open postman in and send a post request to http://localhost:8080/api/auth/signup
-or you can also use the swagger
+1. First open **postman** in and send a post request to http://localhost:8080/api/auth/signup
+or you can also use the **swagger**
 
     **note**: Make sure that you send an json like this and **the role is admin**   
 ```json
