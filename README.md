@@ -64,6 +64,7 @@ SELECT * FROM users;
 - Java 21
 - Maven 3.9.9
 - Docker 27.2.1 ![Docker](https://raw.githubusercontent.com/docker/brand/master/logos/256.png)
+
 - Docker Compose 1.29.2
 - PostgreSQL 16.3
 - Vue cli 5.0.8
