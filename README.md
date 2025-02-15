@@ -1,19 +1,14 @@
 # Crowdfunding Web App
 
-This repository demonstrates a basic setup of Spring Security, showcasing fundamental authentication and authorization mechanisms within a Spring Boot application.
+The repository showcases a basic Crowdfunding web application built with Spring Boot. It includes fundamental authentication and authorization features, ensuring secure access and user management.
 
 ## Installation
 
 Clone the repository
 ```
-git clone https://github.com/nikos-kaparos/Spring-Security-Example.git
+git clone https://github.com/nikos-kaparos/Crowdfunding.git
 ```
-<!--
- Build the project with Maven:
-```
-mvn clean package -DskipTests
-```
--->
+
 ## Usage
 Run the containers
 ```bash
@@ -33,12 +28,31 @@ Get all users from users table
 ```bash
 SELECT * FROM users;
 ```
-Login open browser to http://localhost:8080 login note that has RBAC (role based access control).
+Insert admin user
+
+- **Open Postman** and send a **POST** request in http://localhost:8080/api/auth/signup with this body 
+```json
+{
+    "username": "your_username",
+    "password": "your_password",
+    "email": "your_email",
+    "role": "admin"
+}
+```
+After that, open browser in http://localhost:3000 login note that has RBAC (role based access control) and Jwt Authentication.
+
+Also you can view the logs of the container by this.
+
+Run 
+```bash
+docker logs <container-name>
+``` 
 
 ## Features
 
--   **Admin User**: An admin user is automatically created in the Docker container's database. The admin can view new users who sign up in the system and approves the registration. Also admin can view all project that users post and approves them. Οnly the approved project is displayed.
+-   **Admin User**: The admin can view new users who sign up in the system and approves the registration, he can delete them when the project that they are connected is finished. Also admin can view all project that users post and approves them. Only the approved project is displayed.
 
+NEED UPDATE!!!!!!!!!
 -   **Unique Usernames**: The app does not allow users to register with the same username. If a username already exists, registration is prevented.
 -   **User Enablement**: The admin can enable or disable users. Only enabled users can log in to the app.
 
