@@ -24,7 +24,7 @@ docker ps
 1. First open **postman** in and send a post request to http://localhost:8080/api/auth/signup
 or you can also use the **swagger**
 
-    **note**: Make sure that you send an json like this and **the role is admin**   
+    **note**: Make sure that you send an json look like this and **the role is admin**   
 ```json
 {
     "username": "your_username",
