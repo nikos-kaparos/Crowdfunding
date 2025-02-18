@@ -8,7 +8,7 @@ This project follows **RESTful API** principles, providing secure and structured
 
 Clone the repository
 ```
-git clone https://github.com/nikos-kaparos/Spring-Security-Example.git
+https://github.com/nikos-kaparos/Crowdfunding.git
 ```
 ## Usage
 Run the containers
