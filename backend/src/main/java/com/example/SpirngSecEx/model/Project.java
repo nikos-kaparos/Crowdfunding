@@ -42,6 +42,7 @@ public class Project {
     //True if the project is approved by the admin, false if the project has yet to be approved
 
     @ManyToMany(mappedBy = "projects", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JsonBackReference // Αυτή είναι η "αντίστροφη" πλευρά της σχέσης
     private List<Supporter> supporters;
 
     @OneToMany(mappedBy = "project")
@@ -162,6 +163,7 @@ public class Project {
     public void addContribution (Contribution contribution){
         contributions.add(contribution);
     }
+
 
 
     @Override

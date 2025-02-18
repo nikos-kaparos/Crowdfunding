@@ -57,12 +57,21 @@ export default {
           throw new Error('Failed to fetch supporter data');
         }
         const data = await response.json();
-        // Ensure that the project is defined for each contribution
+        console.log(data);
+
+        // Δημιουργία χάρτη projects με βάση τα contributions
+        const projectMap = {};
+        data.projects.forEach(project => {
+          project.contributions.forEach(contribution => {
+            projectMap[contribution.id] = project.title;  // Συνδέουμε κάθε contribution id με το project title
+          });
+        });
+
         supporter.value = {
           ...data,
           contributions: data.contributions.map(contribution => ({
             ...contribution,
-            project: contribution.project || {}, // Ensure project is not undefined
+            project: { title: projectMap[contribution.id] || 'No Project Title' },  // Αντιστοίχιση του τίτλου
           })),
         };
       } catch (err) {
@@ -132,3 +141,4 @@ li {
   border-radius: 5px;
 }
 </style>
+

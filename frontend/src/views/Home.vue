@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
@@ -16,10 +16,20 @@ export default {
     const message = ref(null);
     const loading = ref(true);
     const token = localStorage.getItem('accessToken');
-    console.log(token);
-    
-
     const store = useStore();
+
+    onBeforeMount(() => {
+      const url = new URL(window.location.href);
+      // If the URL does not have our custom flag, then trigger a reload with it.
+      if (!url.searchParams.get('reloaded')) {
+        url.searchParams.set('reloaded', 'true');
+        window.location.replace(url.toString());
+      } else {
+        // Remove the flag so that future fresh navigations will trigger a reload again.
+        url.searchParams.delete('reloaded');
+        window.history.replaceState({}, document.title, url.toString());
+      }
+    });
 
     onMounted(async () => {
       if (token) {
@@ -38,7 +48,6 @@ export default {
           }
 
           const data = await response.text(); // Αν περιμένουμε απλό κείμενο
-          // const data = await response.json(); // Αν περιμένουμε JSON
           message.value = data;
           await store.dispatch('setAuth', true);
 

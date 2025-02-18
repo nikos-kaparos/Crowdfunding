@@ -6,8 +6,8 @@
     <input v-model="data.username" type="text" class="form-control" id="floatingInput" placeholder="username">
     
     <label for="floatingPassword">Password</label>
-    <input v-model="data.password" class="form-control" id="floatingPassword" placeholder="Password">
-
+    <input v-model="data.password" type="password" class="form-control" id="floatingPassword" placeholder="Password">    
+    
     <label for="floatingEmail">Email</label>
     <input v-model="data.email" type="email" class="form-control" id="floatingEmails" placeholder="email@exmpal.com">
     

@@ -17,7 +17,8 @@ public class Supporter extends Users{
             inverseJoinColumns = @JoinColumn(name = "project_id"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"supporter_id", "project_id"})
     )
-    @JsonIgnore
+//    @JsonIgnore
+//    @JsonManagedReference
     private List<Project> projects;
 
 

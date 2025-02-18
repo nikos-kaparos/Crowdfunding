@@ -17,7 +17,7 @@ module.exports = {
   devServer: {
     "proxy": {
       "/api/*": {
-        "target": "http://localhost:8080",
+        "target": "http://spring_app:8080",
       }
     }
   }

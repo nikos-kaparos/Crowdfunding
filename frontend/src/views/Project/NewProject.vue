@@ -54,7 +54,7 @@
           const data = await response.json();
           console.log('Project created:', data);
           // Μεταφορά στη σελίδα με τα projects ή άλλη ενέργεια
-        //   this.$router.push('/projects');
+          this.$router.push('/creator');
         } catch (error) {
           console.error('Error creating project:', error);
         }
