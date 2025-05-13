@@ -69,4 +69,7 @@ SELECT * FROM users;
 - PostgreSQL 16.3
 - Vue cli 5.0.8
 - Node.js 20
-- Nginx last stable version                                                                                                                                                                                                                                                                                                                                 
+- Nginx last stable version 
+
+
+                                                                                                                                                                                                                                                                                                                                
