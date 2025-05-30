@@ -34,7 +34,7 @@ export default {
     console.log(data);
 
     // Αποστολή αίτησης για login
-    const response = await fetch('http://localhost:8080/api/auth/signin', {
+    const response = await fetch('api/auth/signin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)

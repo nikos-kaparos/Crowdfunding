@@ -38,7 +38,7 @@
       async createProject() {
         const token = localStorage.getItem('accessToken'); // Ανάκτηση του JWT token από το localStorage
         try {
-          const response = await fetch('http://localhost:8080/api/project/new', {
+          const response = await fetch('api/project/new', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

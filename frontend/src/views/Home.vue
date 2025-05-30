@@ -34,7 +34,7 @@ export default {
     onMounted(async () => {
       if (token) {
         try {
-          const response = await fetch('http://localhost:8080/api/home', {
+          const response = await fetch('/api/home', {
             method: 'GET', // Προκαθορισμένη μέθοδος, αλλά καλό είναι να την ορίζουμε ρητά
             headers: {
               'Authorization': `Bearer ${token}`,
