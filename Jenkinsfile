@@ -15,7 +15,7 @@ stages {
 
     stage('Test') {
         steps {
-            dir(backend){
+            dir('backend'){
                 sh '''
                 pwd
                 echo "Start testing"
