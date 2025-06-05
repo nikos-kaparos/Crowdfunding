@@ -15,10 +15,12 @@ stages {
 
     stage('Test') {
         steps {
-            sh '''
+            dir(backend){
+                sh '''
                 echo "Start testing"
                 mvn clean test
             '''
+            }
         }
     }
 
