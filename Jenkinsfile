@@ -59,9 +59,9 @@ stages {
             }
         }
 
-    stage('run ansbile job'){
+    stage('run ansible job'){
         steps{
-            build job: 'ansbile'
+            build job: 'ansible'
         }
     }
 
