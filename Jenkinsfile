@@ -25,7 +25,7 @@ stages {
         }
     }
 
-    stage('Docker build and push') {
+    stage('Docker build and push backend') {
             steps {
                 dir('backend'){
                     sh '''
@@ -41,7 +41,21 @@ stages {
             }
         }
 
-
+    stage('Docker build and push backend'){
+        steps{
+            dir('frontend'){
+                sh '''
+                pwd
+                COMMIT=$(git rev-parse --short HEAD)
+                TAG=$COMMIT-$BUILD_ID
+                docker build -t $FRONTEND_IMAGE:$TAG -t $FRONTEND_IMAGE:latest .
+                echo $DOCKER_TOKEN | docker login $DOCKER_SERVER -u $DOCKER_USER --password-stdin
+                docker push $FRONTEND_IMAGE:$TAG
+                docker push $FRONTEND_IMAGE:latest
+                '''
+            }
+        }
+    }
 
     // stage('deploy to kubernetes') {
     //         steps {
