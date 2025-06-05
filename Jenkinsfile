@@ -6,7 +6,8 @@ environment {
         DOCKER_TOKEN=credentials('docker-push-secret')
         DOCKER_USER='nikos-kaparos'
         DOCKER_SERVER='ghcr.io'
-        DOCKER_PREFIX='ghcr.io/nikos-kaparos/crowdfunding'
+        DOCKER_BACKEND='ghcr.io/nikos-kaparos/crowdfunding-backend'
+        DOCKER_FRONTEND='ghcr.io/nikos-kaparos/crowdfunding-frontend'
     }
 
 
@@ -31,11 +32,11 @@ stages {
                     sh '''
                     HEAD_COMMIT=$(git rev-parse --short HEAD)
                     TAG=$HEAD_COMMIT-$BUILD_ID
-                    docker build --rm -t $DOCKER_PREFIX:$TAG -t $DOCKER_PREFIX-backend:latest -f Dockerfile .
+                    docker build --rm -t $DOCKER_BACKEND:$TAG -t $DOCKER_BACKEND:latest -f Dockerfile .
                 '''
                     sh '''
                     echo $DOCKER_TOKEN | docker login $DOCKER_SERVER -u $DOCKER_USER --password-stdin
-                    docker push $DOCKER_PREFIX-backend--all-tags
+                    docker push $DOCKER_BACKEND --all-tags
                 '''
                 }
             }
@@ -48,12 +49,11 @@ stages {
                     pwd
                     COMMIT=$(git rev-parse --short HEAD)
                     TAG=$COMMIT-$BUILD_ID
-                    docker build --rm -t $DOCKER_PREFIX:$TAG -t $DOCKER_PREFIX-fronted:latest -f Dockerfile .
+                    docker build --rm -t $DOCKER_FRONTEND:$TAG -t $DOCKER_FRONTEND:latest -f Dockerfile .
                     '''
-
                     sh '''
                     echo $DOCKER_TOKEN | docker login $DOCKER_SERVER -u $DOCKER_USER --password-stdin
-                    docker push $DOCKER_PREFIX-fronted--all-tags
+                    docker push $DOCKER_FRONTEND --all-tags
                     '''
                 }
             }
