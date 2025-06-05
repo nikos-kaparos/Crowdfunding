@@ -68,7 +68,7 @@ stages {
     stage('test connection to deployment env'){
         steps{
             sh '''
-                ansible -i ~/workspace/ansible/host.yaml -m ping  deployment-vm
+                ansible -i ~/workspace/ansible/hosts.yaml -m ping  deployment-vm
             '''
 
         }
