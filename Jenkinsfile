@@ -17,6 +17,7 @@ stages {
         steps {
             dir(backend){
                 sh '''
+                pwd
                 echo "Start testing"
                 mvn clean test
             '''
