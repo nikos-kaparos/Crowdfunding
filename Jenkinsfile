@@ -27,6 +27,7 @@ stages {
 
     stage('Docker build and push') {
             steps {
+                dir('backend')
                 sh '''
                     HEAD_COMMIT=$(git rev-parse --short HEAD)
                     TAG=$HEAD_COMMIT-$BUILD_ID
