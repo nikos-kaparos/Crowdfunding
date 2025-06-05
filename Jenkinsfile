@@ -31,11 +31,11 @@ stages {
                     sh '''
                     HEAD_COMMIT=$(git rev-parse --short HEAD)
                     TAG=$HEAD_COMMIT-$BUILD_ID
-                    docker build --rm -t $DOCKER_PREFIX:$TAG -t $DOCKER_PREFIX:latest -f Dockerfile .
+                    docker build --rm -t $DOCKER_PREFIX:$TAG -t $DOCKER_PREFIX-backend:latest -f Dockerfile .
                 '''
                     sh '''
                     echo $DOCKER_TOKEN | docker login $DOCKER_SERVER -u $DOCKER_USER --password-stdin
-                    docker push $DOCKER_PREFIX --all-tags
+                    docker push $DOCKER_PREFIX-backend--all-tags
                 '''
                 }
             }
@@ -48,10 +48,12 @@ stages {
                     pwd
                     COMMIT=$(git rev-parse --short HEAD)
                     TAG=$COMMIT-$BUILD_ID
-                    docker build -t $FRONTEND_IMAGE:$TAG -t $FRONTEND_IMAGE:latest .
+                    docker build --rm -t $DOCKER_PREFIX:$TAG -t $DOCKER_PREFIX-fronted:latest -f Dockerfile .
+                    '''
+
+                    sh '''
                     echo $DOCKER_TOKEN | docker login $DOCKER_SERVER -u $DOCKER_USER --password-stdin
-                    docker push $FRONTEND_IMAGE:$TAG
-                    docker push $FRONTEND_IMAGE:latest
+                    docker push $DOCKER_PREFIX-fronted--all-tags
                     '''
                 }
             }
