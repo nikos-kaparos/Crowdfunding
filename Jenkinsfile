@@ -10,14 +10,8 @@ environment {
     }
 
 
-// stages {
+stages {
 
-
-//     stage('run ansible pipeline') {
-//         steps {
-//             build job: 'ansible'
-//         }
-//     }
 
     stage('Test') {
         steps {
@@ -56,10 +50,6 @@ environment {
     //         }
     //     }
 
-//    post {
-//        always {
-//            mail  to: "tsadimas@gmail.com", from: "tsadimas@gmail.com", body: "Project ${env.JOB_NAME} <br>, Build status ${currentBuild.currentResult} <br> Build Number: ${env.BUILD_NUMBER} <br> Build URL: ${env.BUILD_URL}", subject: "JENKINS: Project name -> ${env.JOB_NAME}, Build -> ${currentBuild.currentResult}"
-//        }
-//    }
+}
 
 }
