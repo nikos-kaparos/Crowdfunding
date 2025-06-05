@@ -77,6 +77,7 @@ stages {
     stage('install docker and docker compose to deployment'){
         steps{
             sh '''
+                cd ../ansible
                 pwd
                 ansible-playbook /var/lib/jenkins/workspace/ansible/playbook/docker.yaml
             '''
