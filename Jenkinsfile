@@ -77,7 +77,7 @@ stages {
     stage('install docker and docker compose to deployment'){
         steps{
             sh '''
-                ansible-playbook -i ~/workspace/ansible/playbook/docker.yaml
+                ansible-playbook /playbook/docker.yaml
             '''
         }
     }
