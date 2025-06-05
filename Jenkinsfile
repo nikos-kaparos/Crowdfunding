@@ -59,6 +59,21 @@ stages {
             }
         }
 
+    stage('run ansbile job'){
+        steps{
+            build job: 'ansbile'
+        }
+    }
+
+    stage('test connection to deployment env'){
+        steps{
+            sh '''
+                ansible -i ~/workspace/ansible/host.yaml -m ping  deployment-vm
+            '''
+
+        }
+    }
+
     // stage('deploy to kubernetes') {
     //         steps {
     //             sh '''
