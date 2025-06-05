@@ -74,6 +74,14 @@ stages {
         }
     }
 
+    stage('install docker and docker compose to deployment'){
+        steps{
+            sh '''
+                ansible-playbook ~//workspace/ansible/playbook/docker.yaml
+            '''
+        }
+    }
+
     // stage('deploy to kubernetes') {
     //         steps {
     //             sh '''
