@@ -90,7 +90,7 @@ stages {
                 export ANSIBLE_CONFIG=ansible/ansible.cfg
                 HEAD_COMMIT=$(git rev-parse --short HEAD)
                 TAG=$HEAD_COMMIT-$BUILD_ID
-                ansible-playbook -i /var/lib/jenkins/workspace/ansible/deploy-docker-compose.yaml \
+                ansible-playbook /var/lib/jenkins/workspace/ansible/deploy-docker-compose.yaml \
                 -e github_user=$DOCKER_USER \
                 -e github_token=$DOCKER_TOKEN \
                 -e backend_image=$DOCKER_BACKEND:$TAG \
