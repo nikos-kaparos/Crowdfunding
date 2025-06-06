@@ -86,18 +86,19 @@ stages {
 
     stage('deploy docker compose'){
         steps{
-            sh'''
-                echo $DOCKER_TOKEN
-                echo $DOCKER_USER
-                export ANSIBLE_CONFIG=~/workspace/ansible/ansible.cfg
-                HEAD_COMMIT=$(git rev-parse --short HEAD)
-                TAG=$HEAD_COMMIT-$BUILD_ID
-                ansible-playbook -i ~/workspace/ansible/hosts.yaml ~/workspace/ansible/playbook/deploy_compose.yaml \
-                -e github_user=$DOCKER_USER \
-                -e github_token="$DOCKER_TOKEN" \
-                -e backend_image=$DOCKER_BACKEND:$TAG \
-                -e frontend_image=$DOCKER_FRONTEND:$TAG
-        '''
+            withEnv(["GITHUB_TOKEN=$DOCKER_TOKEN"]){
+                sh'''
+                    echo $DOCKER_TOKEN
+                    echo $DOCKER_USER
+                    export ANSIBLE_CONFIG=~/workspace/ansible/ansible.cfg
+                    HEAD_COMMIT=$(git rev-parse --short HEAD)
+                    TAG=$HEAD_COMMIT-$BUILD_ID
+                    ansible-playbook -i ~/workspace/ansible/hosts.yaml ~/workspace/ansible/playbook/deploy_compose.yaml \
+                    -e github_user=$DOCKER_USER \
+                    -e backend_image=$DOCKER_BACKEND:$TAG \
+                    -e frontend_image=$DOCKER_FRONTEND:$TAG
+            '''
+            }
         }
     }
 
