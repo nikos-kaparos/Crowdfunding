@@ -87,7 +87,8 @@ stages {
     stage('deploy docker compose'){
         steps{
             sh'''
-                echo $DOCKER_TOKEN && $DOCKER_USER
+                echo $DOCKER_TOKEN
+                echo $DOCKER_USER
                 export ANSIBLE_CONFIG=~/workspace/ansible/ansible.cfg
                 HEAD_COMMIT=$(git rev-parse --short HEAD)
                 TAG=$HEAD_COMMIT-$BUILD_ID
