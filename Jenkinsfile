@@ -92,7 +92,7 @@ stages {
                 TAG=$HEAD_COMMIT-$BUILD_ID
                 ansible-playbook /var/lib/jenkins/workspace/ansible/deploy-docker-compose.yaml \
                 -e github_user=$DOCKER_USER \
-                -e github_token=$DOCKER_TOKEN \
+                -e github_token="$DOCKER_TOKEN" \
                 -e backend_image=$DOCKER_BACKEND:$TAG \
                 -e frontend_image=$DOCKER_FRONTEND:$TAG
         '''
