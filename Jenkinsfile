@@ -74,33 +74,29 @@ stages {
         }
     }
 
-    stage('install docker and docker compose to deployment'){
-        steps{
-            sh '''
-                cd ../ansible
-                pwd
-                ansible-playbook /var/lib/jenkins/workspace/ansible/playbook/docker.yaml
-            '''
-        }
-    }
+    // stage('install docker and docker compose to deployment'){
+    //     steps{
+    //         sh '''
+    //             cd ../ansible
+    //             pwd
+    //             ansible-playbook /var/lib/jenkins/workspace/ansible/playbook/docker.yaml
+    //         '''
+    //     }
+    // }
 
     stage('deploy docker compose'){
         steps{
-            scprit{
-                sh '''
-                    cd ../ansible
-                    pwd
-                    echo "DEBUG DOCKER_TOKEN length: ${#DOCKER_TOKEN}"
-                    export ANSIBLE_CONFIG=~/workspace/ansible/ansible.cfg
-                    HEAD_COMMIT=$(git rev-parse --short HEAD)
-                    TAG=$HEAD_COMMIT-$BUILD_ID
-                    ansible-playbook -i ~/workspace/ansible/hosts.yaml ~/workspace/ansible/playbook/deploy_compose.yaml \
-                    -e github_user="$DOCKER_USER" \
-                    -e github_token="$DOCKER_TOKEN" \
-                    -e backend_image=$DOCKER_BACKEND:$TAG \
-                    -e frontend_image=$DOCKER_FRONTEND:$TAG
-                '''
-            }
+            sh'''
+                export ANSIBLE_CONFIG=~/workspace/ansible/ansible.cfg
+                HEAD_COMMIT=$(git rev-parse --short HEAD)
+                TAG=$HEAD_COMMIT-$BUILD_ID
+                echo $DOCKER_TOKEN && $DOCKER_USER
+                ansible-playbook -i ~/workspace/ansible/hosts.yaml ~/workspace/ansible/playbook/deploy_compose.yaml \
+                -e github_user=$DOCKER_USER \
+                -e github_token="$DOCKER_TOKEN" \
+                -e backend_image=$DOCKER_BACKEND:$TAG \
+                -e frontend_image=$DOCKER_FRONTEND:$TAG
+        '''
         }
     }
 
