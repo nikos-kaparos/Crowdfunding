@@ -86,7 +86,8 @@ stages {
 
     stage('deploy docker compose'){
         steps{
-            sh'''
+            scprit{
+            sh '''
                 cd ../ansible
                 pwd
                 echo "DEBUG DOCKER_TOKEN length: ${#DOCKER_TOKEN}"
@@ -98,7 +99,8 @@ stages {
                 -e github_token="$DOCKER_TOKEN" \
                 -e backend_image=$DOCKER_BACKEND:$TAG \
                 -e frontend_image=$DOCKER_FRONTEND:$TAG
-        '''
+            '''
+            }
         }
     }
 
