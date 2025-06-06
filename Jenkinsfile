@@ -94,7 +94,7 @@ stages {
                 TAG=$HEAD_COMMIT-$BUILD_ID
                 ansible-playbook -i ~/workspace/ansible/hosts.yaml ~/workspace/ansible/playbook/deploy_compose.yaml \
                 -e github_user="$DOCKER_USER" \
-                -e github_token="$DOCKER_TOKEN" \
+                -e github_token=$DOCKER_TOKEN \
                 -e backend_image=$DOCKER_BACKEND:$TAG \
                 -e frontend_image=$DOCKER_FRONTEND:$TAG
         '''
