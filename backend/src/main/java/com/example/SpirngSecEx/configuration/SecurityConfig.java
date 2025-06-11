@@ -116,7 +116,7 @@ public class SecurityConfig {
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(unauthorizedHandler))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**","/api/home", "/api/supporters/**").permitAll()
+                        .requestMatchers("/api/auth/**","/api/home", "/api/supporters/**", "/actuator/health/**", "/actuator/**").permitAll()
                         .requestMatchers(
                                 "/v3/api-docs/**",
                                 "/v2/api-docs/**",
