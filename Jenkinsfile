@@ -82,7 +82,7 @@ stages {
             failure{
                 script{
                     echo "⚠️ Failed to connect to deployment VM. Skipping deploy stages..."
-                    env.SKIP_DEPLOYMENT = 'true'
+                    SKIP_DEPLOYMENT = 'true'
                 }
             }
         }
@@ -90,7 +90,7 @@ stages {
 
     stage('install docker and docker compose to deployment'){
         when {
-            expression { return env.SKIP_DEPLOYMENT == 'false' }
+            expression { return SKIP_DEPLOYMENT == 'false' }
         }
         steps{
             sh '''
@@ -103,7 +103,7 @@ stages {
 
     stage('deploy docker compose'){
         when {
-            expression { return env.SKIP_DEPLOYMENT == 'false' }
+            expression { return SKIP_DEPLOYMENT == 'false' }
         }
         steps{
             withEnv(["GITHUB_TOKEN=$DOCKER_TOKEN"]){
