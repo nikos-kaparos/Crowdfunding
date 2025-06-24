@@ -8,7 +8,6 @@ environment {
         DOCKER_SERVER='ghcr.io'
         DOCKER_BACKEND='ghcr.io/nikos-kaparos/crowdfunding-backend'
         DOCKER_FRONTEND='ghcr.io/nikos-kaparos/crowdfunding-frontend'
-        SKIP_DEPLOYMENT='false'
         ARGO_REPO='git@github.com:nikos-kaparos/argocd.git'
         SSH_CREDS_ID ='gtihub-ssh'
     }
@@ -82,7 +81,7 @@ stages {
             failure{
                 script{
                     echo "⚠️ Failed to connect to deployment VM. Skipping deploy stages..."
-                    $SKIP_DEPLOYMENT = 'true'
+                    SKIP_DEPLOYMENT = true
                 }
             }
         }
@@ -90,7 +89,7 @@ stages {
 
     stage('install docker and docker compose to deployment'){
         when {
-            expression { return $SKIP_DEPLOYMENT == 'false' }
+            expression { return SKIP_DEPLOYMENT == false }
         }
         steps{
             sh '''
@@ -103,7 +102,7 @@ stages {
 
     stage('deploy docker compose'){
         when {
-            expression { return $SKIP_DEPLOYMENT == 'false' }
+            expression { return SKIP_DEPLOYMENT == false }
         }
         steps{
             withEnv(["GITHUB_TOKEN=$DOCKER_TOKEN"]){
