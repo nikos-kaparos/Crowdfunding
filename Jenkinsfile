@@ -71,7 +71,7 @@ stages {
     stage('test connection to deployment env'){
         steps{
             script{
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+                catchError(buildResult: 'SUCCESS', stageResult: 'UNREACHABLE'){
                     sh '''
                         ansible -i ~/workspace/ansible/hosts.yaml -m ping  deployment-vm
                     '''
