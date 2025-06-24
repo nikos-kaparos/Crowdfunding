@@ -9,6 +9,8 @@ environment {
         DOCKER_BACKEND='ghcr.io/nikos-kaparos/crowdfunding-backend'
         DOCKER_FRONTEND='ghcr.io/nikos-kaparos/crowdfunding-frontend'
         SKIP_DEPLOYMENT = 'false'
+        ARGO_REPO = 'git@github.com:nikos-kaparos/argocd.git'
+        SSH_CREDS_ID = 'gtihub-ssh'
     }
 
 
@@ -121,8 +123,6 @@ stages {
     }
 
     stage('update Argo images'){
-        ARGO_REPO = 'git@github.com:nikos-kaparos/argocd.git'
-        SSH_CREDS_ID = 'gtihub-ssh'
         steps('Clone Argo Repo'){
             sshagent(credentials: [env.SSH_CREDS_ID]){
                 sh '''
