@@ -8,6 +8,7 @@ environment {
         DOCKER_SERVER='ghcr.io'
         DOCKER_BACKEND='ghcr.io/nikos-kaparos/crowdfunding-backend'
         DOCKER_FRONTEND='ghcr.io/nikos-kaparos/crowdfunding-frontend'
+        SKIP_DEPLOYMENT = 'false'
     }
 
 
@@ -67,14 +68,28 @@ stages {
 
     stage('test connection to deployment env'){
         steps{
-            sh '''
-                ansible -i ~/workspace/ansible/hosts.yaml -m ping  deployment-vm
-            '''
-
+            script{
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+                    sh '''
+                        ansible -i ~/workspace/ansible/hosts.yaml -m ping  deployment-vm
+                    '''
+                }
+            }
+        }
+        post {
+            failure{
+                script{
+                    echo "⚠️ Failed to connect to deployment VM. Skipping deploy stages..."
+                    env.SKIP_DEPLOYMENT = 'true'
+                }
+            }
         }
     }
 
     stage('install docker and docker compose to deployment'){
+        when {
+            expression { return env.SKIP_DEPLOYMENT == 'false' }
+        }
         steps{
             sh '''
                 cd ../ansible
@@ -85,6 +100,9 @@ stages {
     }
 
     stage('deploy docker compose'){
+        when {
+            expression { return env.SKIP_DEPLOYMENT == 'false' }
+        }
         steps{
             withEnv(["GITHUB_TOKEN=$DOCKER_TOKEN"]){
                 sh'''
@@ -99,6 +117,35 @@ stages {
                     -e frontend_image=$DOCKER_FRONTEND:$TAG
             '''
             }
+        }
+    }
+
+    stage('update Argo images'){
+        ARGO_REPO = 'git@github.com:nikos-kaparos/argocd.git'
+        SSH_CREDS_ID = 'gtihub-ssh'
+        steps('Clone Argo Repo'){
+            sshagent(credentials: [env.SSH_CREDS_ID]){
+                sh '''
+                    echo "[INFO] Cloning ArgoCD repo..."
+                    rm -rf argocd-repo
+                    git clone $ARGO_REPO argocd-repo
+                    cd argocd-repo
+
+                    echo "[INFO] Updating backend image..."
+                    sed -i "s|image: $DOCKER_BACKEND:.*|image: $DOCKER_BACKEND:$TAG|" spring/spring-deployment.yaml
+
+
+                    echo "[INFO] Updating frontend image..."
+                    sed -i "s|image: $DOCKER_FRONTEND:.*|image: $DOCKER_FRONTEND:$TAG|" vue/vue-deploymnet.yaml
+
+                    git config user.name "jenkins"
+                    git config user.email "jenkins@example.com"
+                    git add .
+                    git commit -m "Update image tags to $TAG from Jenkins"
+                    git push
+                '''
+            }
+            
         }
     }
 
