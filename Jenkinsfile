@@ -89,9 +89,9 @@ stages {
     }
 
     stage('install docker and docker compose to deployment'){
-        when {
-            expression { return env.SKIP_DEPLOYMENT == false }
-        }
+        // when {
+        //     expression { return env.SKIP_DEPLOYMENT == false }
+        // }
         steps{
             sh '''
                 cd ../ansible
@@ -102,9 +102,9 @@ stages {
     }
 
     stage('deploy docker compose'){
-        when {
-            expression { return env.SKIP_DEPLOYMENT == false }
-        }
+        // when {
+        //     expression { return env.SKIP_DEPLOYMENT == false }
+        // }
         steps{
             withEnv(["GITHUB_TOKEN=$DOCKER_TOKEN"]){
                 sh'''
