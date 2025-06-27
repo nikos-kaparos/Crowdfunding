@@ -122,33 +122,33 @@ stages {
         }
     }
 
-    stage('update Argo images'){
-        steps('Clone Argo Repo'){
-            sshagent(credentials: [env.SSH_CREDS_ID]){
-                sh '''
-                    echo "[INFO] Cloning ArgoCD repo..."
-                    rm -rf argocd-repo
-                    git clone $ARGO_REPO argocd-repo
-                    cd argocd-repo
+    // stage('update Argo images'){
+    //     steps('Clone Argo Repo'){
+    //         sshagent(credentials: [env.SSH_CREDS_ID]){
+    //             sh '''
+    //                 echo "[INFO] Cloning ArgoCD repo..."
+    //                 rm -rf argocd-repo
+    //                 git clone $ARGO_REPO argocd-repo
+    //                 cd argocd-repo
 
-                    HEAD_COMMIT=$(git rev-parse --short HEAD)
-                    TAG=$HEAD_COMMIT-$BUILD_ID
+    //                 HEAD_COMMIT=$(git rev-parse --short HEAD)
+    //                 TAG=$HEAD_COMMIT-$BUILD_ID
 
-                    echo "[INFO] Updating backend image..."
-                    sed -i "s|image: $DOCKER_BACKEND:.*|image: $DOCKER_BACKEND:latest|" spring/spring-deployment.yaml
+    //                 echo "[INFO] Updating backend image..."
+    //                 sed -i "s|image: $DOCKER_BACKEND:.*|image: $DOCKER_BACKEND:latest|" spring/spring-deployment.yaml
 
-                    echo "[INFO] Updating frontend image..."
-                    sed -i "s|image: $DOCKER_FRONTEND:.*|image: $DOCKER_FRONTEND:latest|" vue/vue-deploymnet.yaml
+    //                 echo "[INFO] Updating frontend image..."
+    //                 sed -i "s|image: $DOCKER_FRONTEND:.*|image: $DOCKER_FRONTEND:latest|" vue/vue-deploymnet.yaml
 
-                    git config user.name "jenkins"
-                    git config user.email "jenkins@example.com"
-                    git add .
-                    git commit -m "Update image tags to latest from Jenkins"
-                    git push
-                '''
-            }
-        }
-    }
+    //                 git config user.name "jenkins"
+    //                 git config user.email "jenkins@example.com"
+    //                 git add .
+    //                 git commit -m "Update image tags to latest from Jenkins"
+    //                 git push
+    //             '''
+    //         }
+    //     }
+    // }
 
     // stage('deploy to kubernetes') {
     //         steps {
