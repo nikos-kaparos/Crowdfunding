@@ -44,6 +44,7 @@ stages {
                     sh '''
                     HEAD_COMMIT=$(git rev-parse --short HEAD)
                     TAG=$HEAD_COMMIT-$BUILD_ID
+                    echo [INFO] TAG=$TAG
                     docker build --rm -t $DOCKER_BACKEND:$TAG -t $DOCKER_BACKEND:latest -f Dockerfile .
                 '''
                     sh '''
@@ -57,10 +58,17 @@ stages {
     stage('Docker build and push frontend'){
             steps{
                 dir('frontend'){
+                    script{
+                        commitHash = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
+                        tag = "${commitHash}-${env.BUILD_ID}"
+
+                        echo "[INFO] Using TAG: ${tag}"
+                    }
                     sh '''
                     pwd
                     COMMIT=$(git rev-parse --short HEAD)
                     TAG=$COMMIT-$BUILD_ID
+                    echo [INFO] TAG=$TAG
                     docker build --rm -t $DOCKER_FRONTEND:$TAG -t $DOCKER_FRONTEND:latest -f Dockerfile .
                     '''
                     sh '''
