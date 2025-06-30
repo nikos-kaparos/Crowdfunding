@@ -72,6 +72,7 @@ stages {
 
     stage('test connection to deployment env'){
         steps{
+            script{
                 def result= sh(
                     script: "ansible -i ~/workspace/ansible/hosts.yaml -m ping  deployment-vm",
                     returnStatus: true
@@ -82,6 +83,7 @@ stages {
                 } else {
                     echo "✅ Deployment VM is reachable."
                 }
+            }
             // script{
             //     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
                     
