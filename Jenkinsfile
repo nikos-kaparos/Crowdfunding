@@ -73,7 +73,7 @@ stages {
     stage('test connection to deployment env'){
         steps{
                 def result= sh(
-                    script: "ansible -i ~/workspace/ansible/hosts.yaml -m ping  deployment-vm"
+                    script: "ansible -i ~/workspace/ansible/hosts.yaml -m ping  deployment-vm",
                     returnStatus: true
                 )
                 if (result != 0) {
