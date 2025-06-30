@@ -60,7 +60,6 @@ stages {
                     script{
                         commitHash = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
                         tag = "${commitHash}-${env.BUILD_ID}"
-
                         echo "[INFO] Using TAG: ${tag}"
                     }
                     sh '''
@@ -142,8 +141,7 @@ stages {
                     rm -rf argocd-repo
                     git clone $ARGO_REPO argocd-repo
                     cd argocd-repo
-                    echo "[INFO] TAG=$TAG
-                    echo "[INFO] TAG=$tag
+                    echo "[INFO] image TAG = ${tag}"
                     echo "[INFO] Updating backend image..."
                     sed -i "s|image: $DOCKER_BACKEND:.*|image: $DOCKER_BACKEND:TAG|" spring/spring-deployment.yaml
 
