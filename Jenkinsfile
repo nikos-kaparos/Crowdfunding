@@ -44,7 +44,6 @@ stages {
                     sh '''
                     HEAD_COMMIT=$(git rev-parse --short HEAD)
                     TAG=$HEAD_COMMIT-$BUILD_ID
-                    echo [INFO] TAG=$TAG
                     docker build --rm -t $DOCKER_BACKEND:$TAG -t $DOCKER_BACKEND:latest -f Dockerfile .
                 '''
                     sh '''
@@ -68,7 +67,6 @@ stages {
                     pwd
                     COMMIT=$(git rev-parse --short HEAD)
                     TAG=$COMMIT-$BUILD_ID
-                    echo [INFO] TAG=$TAG
                     docker build --rm -t $DOCKER_FRONTEND:$TAG -t $DOCKER_FRONTEND:latest -f Dockerfile .
                     '''
                     sh '''
@@ -144,12 +142,13 @@ stages {
                     rm -rf argocd-repo
                     git clone $ARGO_REPO argocd-repo
                     cd argocd-repo
-
+                    echo "[INFO] TAG=$TAG
+                    echo "[INFO] TAG=$tag
                     echo "[INFO] Updating backend image..."
-                    sed -i "s|image: $DOCKER_BACKEND:.*|image: $DOCKER_BACKEND:${tag}|" spring/spring-deployment.yaml
+                    sed -i "s|image: $DOCKER_BACKEND:.*|image: $DOCKER_BACKEND:TAG|" spring/spring-deployment.yaml
 
                     echo "[INFO] Updating frontend image..."
-                    sed -i "s|image: $DOCKER_FRONTEND:.*|image: $DOCKER_FRONTEND:${tag}|" vue/vue-deploymnet.yaml
+                    sed -i "s|image: $DOCKER_FRONTEND:.*|image: $DOCKER_FRONTEND:TAG|" vue/vue-deploymnet.yaml
 
                     git config user.name "jenkins"
                     git config user.email "jenkins@example.com"
