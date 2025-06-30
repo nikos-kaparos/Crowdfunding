@@ -1,3 +1,5 @@
+def skipDeployment = false
+
 pipeline {
 
 agent any
@@ -70,28 +72,38 @@ stages {
 
     stage('test connection to deployment env'){
         steps{
-            script{
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
-                    
-                }
-            }
-            sh '''
-                        ansible -i ~/workspace/ansible/hosts.yaml -m ping  deployment-vm
-            '''
-        }
-        post {
-            failure{
-                script{
+                def result= sh(
+                    script: "ansible -i ~/workspace/ansible/hosts.yaml -m ping  deployment-vm"
+                    returnStatus: true
+                )
+                if (result != 0) {
                     echo "⚠️ Failed to connect to deployment VM. Skipping deploy stages..."
-                    $SKIP_DEPLOYMENT = true
+                    skipDeployment = true
+                } else {
+                    echo "✅ Deployment VM is reachable."
                 }
-            }
+            // script{
+            //     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+                    
+            //     }
+            // }
+            // sh '''
+            //             ansible -i ~/workspace/ansible/hosts.yaml -m ping  deployment-vm
+            // '''
         }
+        // post {
+        //     failure{
+        //         script{
+        //             echo "⚠️ Failed to connect to deployment VM. Skipping deploy stages..."
+        //             env.SKIP_DEPLOYMENT = true
+        //         }
+        //     }
+        // }
     }
 
     stage('install docker and docker compose to deployment'){
         when {
-            expression { return env.SKIP_DEPLOYMENT == false }
+            expression { return !skipDeployment }
         }
         steps{
             sh '''
@@ -104,7 +116,7 @@ stages {
 
     stage('deploy docker compose'){
         when {
-            expression { return $SKIP_DEPLOYMENT == false }
+            expression { return !skipDeployment }
         }
         steps{
             withEnv(["GITHUB_TOKEN=$DOCKER_TOKEN"]){
