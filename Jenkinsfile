@@ -70,29 +70,29 @@ stages {
 
     stage('test connection to deployment env'){
         steps{
-            // script{
-            //     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+            script{
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
                     
-            //     }
-            // }
+                }
+            }
             sh '''
                         ansible -i ~/workspace/ansible/hosts.yaml -m ping  deployment-vm
             '''
         }
-        // post {
-        //     failure{
-        //         script{
-        //             echo "⚠️ Failed to connect to deployment VM. Skipping deploy stages..."
-        //             env.SKIP_DEPLOYMENT = true
-        //         }
-        //     }
-        // }
+        post {
+            failure{
+                script{
+                    echo "⚠️ Failed to connect to deployment VM. Skipping deploy stages..."
+                    env.SKIP_DEPLOYMENT = true
+                }
+            }
+        }
     }
 
     stage('install docker and docker compose to deployment'){
-        // when {
-        //     expression { return env.SKIP_DEPLOYMENT == false }
-        // }
+        when {
+            expression { return env.SKIP_DEPLOYMENT == false }
+        }
         steps{
             sh '''
                 cd ../ansible
@@ -103,9 +103,9 @@ stages {
     }
 
     stage('deploy docker compose'){
-        // when {
-        //     expression { return env.SKIP_DEPLOYMENT == false }
-        // }
+        when {
+            expression { return env.SKIP_DEPLOYMENT == false }
+        }
         steps{
             withEnv(["GITHUB_TOKEN=$DOCKER_TOKEN"]){
                 sh'''
