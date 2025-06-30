@@ -84,23 +84,7 @@ stages {
                     echo "✅ Deployment VM is reachable."
                 }
             }
-            // script{
-            //     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
-                    
-            //     }
-            // }
-            // sh '''
-            //             ansible -i ~/workspace/ansible/hosts.yaml -m ping  deployment-vm
-            // '''
         }
-        // post {
-        //     failure{
-        //         script{
-        //             echo "⚠️ Failed to connect to deployment VM. Skipping deploy stages..."
-        //             env.SKIP_DEPLOYMENT = true
-        //         }
-        //     }
-        // }
     }
 
     stage('install docker and docker compose to deployment'){
