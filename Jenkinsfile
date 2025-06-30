@@ -138,10 +138,10 @@ stages {
                     cd argocd-repo
 
                     echo "[INFO] Updating backend image..."
-                    sed -i "s|image: $DOCKER_BACKEND:.*|image: $DOCKER_BACKEND:$tag|" spring/spring-deployment.yaml
+                    sed -i "s|image: $DOCKER_BACKEND:.*|image: $DOCKER_BACKEND:${tag}|" spring/spring-deployment.yaml
 
                     echo "[INFO] Updating frontend image..."
-                    sed -i "s|image: $DOCKER_FRONTEND:.*|image: $DOCKER_FRONTEND:$tag|" vue/vue-deploymnet.yaml
+                    sed -i "s|image: $DOCKER_FRONTEND:.*|image: $DOCKER_FRONTEND:${tag}|" vue/vue-deploymnet.yaml
 
                     git config user.name "jenkins"
                     git config user.email "jenkins@example.com"
