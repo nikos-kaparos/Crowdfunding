@@ -136,7 +136,7 @@ stages {
     stage('update Argo images'){
         steps('Clone Argo Repo'){
             sshagent(credentials: [env.SSH_CREDS_ID]){
-                sh '''
+                sh """
                     echo "[INFO] Cloning ArgoCD repo..."
                     rm -rf argocd-repo
                     git clone $ARGO_REPO argocd-repo
@@ -153,7 +153,7 @@ stages {
                     git add .
                     git commit -m "Update image tags to latest from Jenkins"
                     git push
-                '''
+                """
             }
         }
     }
