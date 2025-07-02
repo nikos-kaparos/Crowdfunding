@@ -142,6 +142,7 @@ stages {
                     git clone $ARGO_REPO argocd-repo
                     cd argocd-repo
                     echo "[INFO] image TAG = ${tag}"
+                    
                     echo "[INFO] Updating backend image..."
                     sed -i "s|image: $DOCKER_BACKEND:.*|image: $DOCKER_BACKEND:${tag}|" spring/spring-deployment.yaml
 
