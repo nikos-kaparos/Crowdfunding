@@ -90,10 +90,10 @@ stages {
                     returnStatus: true
                 )
                 if (result != 0) {
-                    echo "⚠️ Failed to connect to deployment VM. Skipping deploy stages..."
+                    echo "Failed to connect to deployment VM. Skipping deploy stages..."
                     skipDeployment = true
                 } else {
-                    echo "✅ Deployment VM is reachable."
+                    echo "Deployment VM is reachable."
                 }
             }
         }
