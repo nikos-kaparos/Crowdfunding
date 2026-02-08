@@ -1,15 +1,19 @@
 package com.example.SpirngSecEx;
+import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -30,7 +34,8 @@ class SpirngSecExApplicationTests {
 				.content(loginJson));
 
 		// Assert
-		result.andExpect(status().isOk());
+		result.andExpect(status().isOk())
+			.andDo(print());
 	}
 
 	@Test
@@ -42,11 +47,10 @@ class SpirngSecExApplicationTests {
 		ResultActions result = mockMvc.perform(post("/api/auth/signin")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(userJson));
-
 		// Assert
 		result.andExpect(status().isOk())
-				.andExpect(jsonPath("$.username").value("apiuser"));
-
+				.andExpect(jsonPath("$.username").value("apiuser"))
+				.andDo(print());
 	}
 
 	@Test
@@ -72,6 +76,26 @@ class SpirngSecExApplicationTests {
 						.contentType(MediaType.APPLICATION_JSON));
 
 		// Assert access is successful
-		result.andExpect(status().isOk());
+		result.andExpect(status().isOk())
+			.andDo(print());
+	}
+// Test δικα μου 24-12-25
+	@Test
+	public void testAccessSecuredEndpointWithoutJWT_ShouldReturn401() throws Exception {
+		mockMvc.perform(get("/api/project")
+				.contentType(MediaType.APPLICATION_JSON))
+			.andDo(print())
+			.andExpect(status().isForbidden()); 
+	}
+
+	@Test
+	public void testSigninWithWrongPassword_ShouldFail() throws Exception {
+		String badLoginJson = "{\"username\":\"apiuser\",\"password\":\"WRONG\"}";
+
+		mockMvc.perform(post("/api/auth/signin")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(badLoginJson))
+			.andDo(print())                 
+			.andExpect(status().isForbidden()); 
 	}
 }

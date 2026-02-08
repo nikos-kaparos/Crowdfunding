@@ -45,7 +45,7 @@ public class MyUserDetailsService implements UserDetailsService {
     @Transactional
     public Users findUser(int id) {
         return repo.findById(id).get();
-   }
+    }
 
     @Transactional
     public List<Users> getAllUsers() {

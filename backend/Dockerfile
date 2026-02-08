@@ -9,7 +9,7 @@ RUN mvn clean package -DskipTests
 #
 #Package stage
 #
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 CMD ["java", "-jar", "app.jar"]
