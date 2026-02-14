@@ -3,7 +3,8 @@ services:
   app:
     # Location of Dockefile (. -> same directory as docker-compose.yaml)
     build: ./backend
-    container_name: spring_app
+    # image: ghcr.io/nikos-kaparos/crowdfunding-backend:test.3.packages
+    container_name: spring-app
     ports:
       - "8080:8080"
     depends_on:
@@ -15,7 +16,7 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
   db:
     image: postgres:latest
-    container_name: my_postgres_db
+    container_name: my-postgres-db
     environment:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
@@ -26,13 +27,14 @@ services:
       - db_data:/var/lib/postgresql/data
   frontend:
     build: ./frontend # Path to the frontend Dockerfile
-    container_name: vue_frontend
+    container_name: vue-frontend
     ports:
       - "3000:80" # Expose port 80 for the frontend
     depends_on:
       - app # Ensure the backend is running
+    environment:
+      # Αυτό θα αντικαταστήσει το ${BACKEND_URL} στο nginx template
+      BACKEND_URL: http://spring-app:8080/api/
 volumes:
   db_data:
     driver: local
-
-  
