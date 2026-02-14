@@ -1,4 +1,18 @@
 require('@vue/cli-service')
+
+// module.exports = {
+//   devServer: {
+//     proxy: {
+//       '/api': {
+//         target: 'https://TO-BACKEND-SOU.run.app', // Βάλε εδώ το URL του Cloud Run
+//         changeOrigin: true,
+//         logLevel: 'debug', // Για να βλέπεις στο τερματικό τι γίνεται
+//         pathRewrite: { '^/api': '' }, // (Προαιρετικό - δες εξήγηση παρακάτω)
+//       },
+//     },
+//   },
+// };
+
 // module.exports = defineConfig({
 //   transpileDependencies: true
 // })
@@ -12,7 +26,7 @@ require('@vue/cli-service')
 //     }
 //   }
 // };
-
+// Change in 12-6-25 
 module.exports = {
   devServer: {
     "proxy": {
@@ -23,9 +37,18 @@ module.exports = {
   }
 };
 
-// require('@vue/cli-service')
-// // module.exports = defineConfig({
-// //   transpileDependencies: true
-// // })
+// 12-6-25
+// Working google bucket the frontend is up 
+// 1 npm build
+// 2 gsutil rsync -r dist/ gs://frontend-bucket-test-1
+// gs: is the ulr of bucket that create from GOOGLE STORAGE
+// module.exports = {
+//   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
+// };
+
+
+
+
+
 
 

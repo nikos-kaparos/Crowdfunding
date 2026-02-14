@@ -11,19 +11,14 @@ COPY . .
 
 # Build the Vue.js application to the production mode to dist folder
 RUN npm run build
-
 # Use the lightweight Nginx image from the previous stage for the nginx container
 FROM nginx:stable-alpine AS production-stage
-
-# Αντιγραφή του build
+# Copy the build application from the previous stage to the Nginx container
 COPY --from=build-stage /app/dist /usr/share/nginx/html
-
-# Αντιγραφή του template στη σωστή διαδρομή για το auto-substitution
-COPY assets/default.conf.template /etc/nginx/templates/default.conf.template
-
-# Στο Cloud Run η port 80 είναι οκ αφού την όρισες στο Terraform
+# Copy the nginx configuration file
+COPY assets/nginx.conf /etc/nginx/conf.d/default.conf
+# Expose the port 80
+# EXPOSE 3000
 EXPOSE 80
-
-# Το default CMD του nginx image τρέχει το envsubst αυτόματα 
-# πριν ξεκινήσει ο nginx, οπότε δεν χρειάζεται αλλαγή εδώ.
+# Start Nginx to serve the application
 CMD ["nginx", "-g", "daemon off;"]
